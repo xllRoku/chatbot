@@ -48,10 +48,10 @@ class ChatBot {
 			this.messageContainer
 				.removeClass(UtilsClass.CENTER_SPINNER)
 				.addClass(UtilsClass.SPACE);
-		}, 400);
+		}, 800);
 		setTimeout(() => {
 			this.welcomeMessage();
-		}, 600);
+		}, 1000);
 	}
 
 	public closeChat(): void {

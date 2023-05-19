@@ -7,7 +7,7 @@ const MessageClass = {
 
 const UtilsClass = {
 	CLOSED: 'closed',
-	OPENED: 'opened',
+	OPENED: 'show',
 	CENTER_SPINNER: 'center-spinner',
 	CLOSE: 'close',
 	SPACE: 'space'
