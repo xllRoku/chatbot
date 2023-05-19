@@ -1,14 +1,15 @@
 $(document).ready(function () {
-  // Function to add a message to the chat
   function addMessage(message, isBot = false) {
     var chatContainer = $("#message-container");
     let messageContainer;
-    var newMessage = $("<span>").addClass("message").text(message);
+    let newMessage;
 
     if (isBot) {
+      newMessage = $("<span>").addClass("message-bot").text(message);
       messageContainer = $("<div>").addClass("chat-message-bot");
       newMessage.addClass("bot-message");
     } else {
+      newMessage = $("<span>").addClass("message-user").text(message);
       messageContainer = $("<div>").addClass("chat-message-user");
       newMessage.addClass("user-message");
     }
@@ -18,27 +19,26 @@ $(document).ready(function () {
     chatContainer.scrollTop(chatContainer[0].scrollHeight);
   }
 
-  // Function to send a message to the chat
+  const welcomeMessage = () => {
+    const botMessage = "Hola! cómo puedo ayudarte?";
+    addMessage(botMessage, true);
+    const options = [
+      "1. Soy estudiante en busca de prácticas",
+      "2. Soy Estudiante en búsqueda de homologación",
+      "3. Somos una empresa en búsqueda de estudiantes para prácticas o pasantías",
+    ];
+
+    options.forEach((option) => {
+      addMessage(option, true);
+    });
+  };
+
   function sendMessage() {
-    var userInput = $("#user-input").val();
+    const userInput = $("#user-input").val();
     if (userInput.trim() !== "") {
       addMessage(userInput, false);
       $("#user-input").val("");
       setTimeout(function () {
-        var botMessage = "Hello! How can I help you?";
-        addMessage(botMessage, true);
-
-        // Add options as buttons
-        var options = [
-          "1 - Soy estudiante en busca de prácticas",
-          "2 - Soy Estudiante en búsqueda de homologación",
-          "3 - Somos una empresa en búsqueda de estudiantes para prácticas o pasantías",
-        ];
-
-        options.forEach(function (option) {
-          addMessage(option, true);
-        });
-
         if (userInput === "1") {
           var responseMessage =
             "Gracias por tu interés en realizar prácticas en nuestra institución. Te invitamos a ingresar a: https://litoral.edu.co/portal/estudiante/ para verificar los requisitos y procedimientos necesarios para poder realizar las prácticas o te acerques a nuestra oficina. Allí te brindaremos información detallada acerca de las opciones de prácticas disponibles, los requisitos y procedimientos necesarios para su realización, así como cualquier otra información que necesites para completar el proceso de aplicación. Saludos.";
@@ -48,27 +48,38 @@ $(document).ready(function () {
     }
   }
 
-  // Function to open the chat
-  function openChat() {
+  function openChat(welcomeMessage) {
     $("#chat-container").removeClass("closed").addClass("opened");
+    $("#message-container").addClass("center-spinner");
+
+    setTimeout(() => {
+      $(".lds-ellipsis").addClass("close");
+      $("#message-container").removeClass("center-spinner").addClass("space");
+    }, 400);
+    setTimeout(() => {
+      welcomeMessage();
+    }, 600);
   }
 
-  // Function to close the chat
   function closeChat() {
+    $(".lds-ellipsis").removeClass("close");
+    $("#message-container").removeClass("space");
     $("#chat-container").removeClass("opened").addClass("closed");
+    $("#message-container").children().not(".lds-ellipsis").remove();
   }
 
-  // Event to send the message when clicking on the button
   $(document).on("click", "#send-button", function () {
     sendMessage();
   });
 
-  // Event to open or close the chat when the floating bubble is clicked on
   $(document).on("click", "#chat-bubble", function () {
     if ($("#chat-container").hasClass("closed")) {
-      openChat();
+      openChat(welcomeMessage);
     } else {
       closeChat();
     }
   });
 });
+
+// mensaje de bienvenida
+// usario elige una opcion -> se manda el mensaje correspondiente
