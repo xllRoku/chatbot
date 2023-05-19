@@ -49,12 +49,15 @@ $(document).ready(function () {
   }
 
   function openChat(welcomeMessage) {
-    $("#chat-container").removeClass("closed").addClass("opened");
-    $("#message-container").addClass("center-spinner");
+    const chatContainer = $("#chat-container");
+    const messageContainer = $("#message-container");
+
+    chatContainer.removeClass("closed").addClass("opened");
+    messageContainer.addClass("center-spinner");
 
     setTimeout(() => {
       $(".lds-ellipsis").addClass("close");
-      $("#message-container").removeClass("center-spinner").addClass("space");
+      messageContainer.removeClass("center-spinner").addClass("space");
     }, 400);
     setTimeout(() => {
       welcomeMessage();
@@ -62,10 +65,13 @@ $(document).ready(function () {
   }
 
   function closeChat() {
+    const chatContainer = $("#chat-container");
+    const messageContainer = $("#message-container");
+
     $(".lds-ellipsis").removeClass("close");
-    $("#message-container").removeClass("space");
-    $("#chat-container").removeClass("opened").addClass("closed");
-    $("#message-container").children().not(".lds-ellipsis").remove();
+    messageContainer.removeClass("space");
+    chatContainer.removeClass("opened").addClass("closed");
+    messageContainer.children().not(".lds-ellipsis").remove();
   }
 
   $(document).on("click", "#send-button", function () {
