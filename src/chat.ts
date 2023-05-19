@@ -39,7 +39,10 @@ class ChatBot {
 			.removeClass(UtilsClass.CLOSED)
 			.addClass(UtilsClass.OPENED);
 		this.messageContainer.addClass(UtilsClass.CENTER_SPINNER);
+		this.showWelcomeMessage();
+	}
 
+	private showWelcomeMessage(): void {
 		setTimeout(() => {
 			$('.lds-ellipsis').addClass(UtilsClass.CLOSE);
 			this.messageContainer
