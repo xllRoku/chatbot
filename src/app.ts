@@ -1,16 +1,19 @@
 import $ from 'jquery';
-import * as chat from './chat';
+import { ChatBot } from './chat';
 
 $(() => {
+	const chatContainer = $('#chat-container');
+	const messageContainer = $('#message-container');
+	const chatBot = new ChatBot(chatContainer, messageContainer);
 	$(document).on('click', '#send-button', function () {
-		chat.sendMessage();
+		chatBot.sendMessage();
 	});
 
 	$(document).on('click', '#chat-bubble', function () {
 		if ($('#chat-container').hasClass('closed')) {
-			chat.openChat(chat.welcomeMessage);
+			chatBot.openChat();
 		} else {
-			chat.closeChat();
+			chatBot.closeChat();
 		}
 	});
 });
