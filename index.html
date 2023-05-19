@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8" />
+  <head>
+    <link rel="icon" href="../Bot-litoral/botlogo.png" />
+    <link rel="stylesheet" href="app.css" />
+    <title>Chatbot</title>
+  </head>
+  <body>
+    <div id="chat-bubble-container" class="chat-bubble-container">
+      <div id="chat-bubble" class="chat-bubble">Chat</div>
+      <div id="chat-container" class="closed chat-container">
+        <div class="header-chat">
+          <div class="logo">
+            <img src="../Bot-litoral/botlogo.png" alt="logo" />
+          </div>
+          <h2 class="title">Lito BOT</h2>
+        </div>
+        <div id="message-container" class="message-container"></div>
+        <div class="form">
+          <div class="form-flex">
+            <input
+              type="text"
+              id="user-input"
+              class="user-input"
+              placeholder="Write your message..."
+            />
+            <button id="send-button" class="send-button">
+              <img
+                src="./assets/images/icons8-sent-26.png"
+                alt=""
+                class="img-send"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
