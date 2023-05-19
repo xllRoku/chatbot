@@ -1,75 +1,50 @@
 import $ from 'jquery';
+import { UtilsClass, BotMessage, options } from './constans';
+import { User } from './user';
+import { Bot } from './bot';
 
 class ChatBot {
 	private chatContainer: JQuery;
 	private messageContainer: JQuery;
+	private user: User;
+	private bot: Bot;
 
 	constructor(chatContainer: JQuery, messageContainer: JQuery) {
 		this.chatContainer = chatContainer;
 		this.messageContainer = messageContainer;
-	}
-
-	private addMessage(message: string, isBot = false): void {
-		let newMessage: JQuery<HTMLElement>;
-		let messageContainer: JQuery<HTMLElement>;
-
-		if (isBot) {
-			newMessage = $('<span>').addClass('message-bot').text(message);
-			messageContainer = $('<div>').addClass('chat-message-bot');
-			newMessage.addClass('bot-message');
-		} else {
-			newMessage = $('<span>').addClass('message-user').text(message);
-			messageContainer = $('<div>').addClass('chat-message-user');
-			newMessage.addClass('user-message');
-		}
-
-		messageContainer.append(newMessage);
-		this.messageContainer.append(messageContainer);
-		this.chatContainer.scrollTop(this.messageContainer[0].scrollHeight);
+		this.user = new User();
+		this.bot = new Bot();
 	}
 
 	private welcomeMessage(): void {
-		const botMessage = 'Hola! ¿Cómo puedo ayudarte?';
-		this.addMessage(botMessage, true);
-		const options = [
-			'1. Soy estudiante en busca de prácticas',
-			'2. Soy Estudiante en búsqueda de homologación',
-			'3. Somos una empresa en búsqueda de estudiantes para prácticas o pasantías'
-		];
-
+		this.bot.sendMessage(BotMessage.WELCOME, this.messageContainer);
 		options.forEach(option => {
-			this.addMessage(option, true);
+			this.bot.sendMessage(option, this.messageContainer);
 		});
 	}
 
 	public sendMessage(): void {
-		const userInput = $('#user-input').val();
-		if (typeof userInput === 'string' && userInput.trim() !== '') {
-			this.addMessage(userInput, false);
-			$('#user-input').val('');
-			setTimeout(() => {
-				if (userInput === '1') {
-					const responseMessage =
-						'Gracias por tu interés en realizar prácticas en nuestra institución. Te invitamos a ingresar a: https://litoral.edu.co/portal/estudiante/ para verificar los requisitos y procedimientos necesarios para poder realizar las prácticas o te acerques a nuestra oficina. Allí te brindaremos información detallada acerca de las opciones de prácticas disponibles, los requisitos y procedimientos necesarios para su realización, así como cualquier otra información que necesites para completar el proceso de aplicación. Saludos.';
-					this.addMessage(responseMessage, true);
-				}
-			}, 500);
+		this.user.resetInput();
+		if (this.user.isInputValid()) {
+			this.user.sendMessage(this.user.input, this.messageContainer);
+			this.bot.WhichOption(
+				this.user.input as string,
+				this.messageContainer
+			);
 		}
 	}
 
 	public openChat(): void {
-		this.chatContainer.removeClass('closed').addClass('opened');
-		this.messageContainer.addClass('center-spinner');
-
-		console.log(this.chatContainer);
-
-		console.log('hello world');
+		this.chatContainer
+			.removeClass(UtilsClass.CLOSED)
+			.addClass(UtilsClass.OPENED);
+		this.messageContainer.addClass(UtilsClass.CENTER_SPINNER);
 
 		setTimeout(() => {
-			$('.lds-ellipsis').addClass('close');
+			$('.lds-ellipsis').addClass(UtilsClass.CLOSE);
 			this.messageContainer
-				.removeClass('center-spinner')
-				.addClass('space');
+				.removeClass(UtilsClass.CENTER_SPINNER)
+				.addClass(UtilsClass.SPACE);
 		}, 400);
 		setTimeout(() => {
 			this.welcomeMessage();
@@ -77,9 +52,11 @@ class ChatBot {
 	}
 
 	public closeChat(): void {
-		$('.lds-ellipsis').removeClass('close');
-		this.messageContainer.removeClass('space');
-		this.chatContainer.removeClass('opened').addClass('closed');
+		$('.lds-ellipsis').removeClass(UtilsClass.CLOSE);
+		this.messageContainer.removeClass(UtilsClass.SPACE);
+		this.chatContainer
+			.removeClass(UtilsClass.OPENED)
+			.addClass(UtilsClass.CLOSED);
 		this.messageContainer.children().not('.lds-ellipsis').remove();
 	}
 }
