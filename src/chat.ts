@@ -55,12 +55,16 @@ class ChatBot {
 	}
 
 	public closeChat(): void {
-		$('.lds-ellipsis').removeClass(UtilsClass.CLOSE);
-		this.messageContainer.removeClass(UtilsClass.SPACE);
-		this.chatContainer
+		const ellipsisLoader = $('.lds-ellipsis');
+		const messageContainer = this.messageContainer;
+		const chatContainer = this.chatContainer;
+
+		ellipsisLoader.removeClass(UtilsClass.CLOSE);
+		messageContainer.removeClass(UtilsClass.SPACE);
+		chatContainer
 			.removeClass(UtilsClass.OPENED)
 			.addClass(UtilsClass.CLOSED);
-		this.messageContainer.children().not('.lds-ellipsis').remove();
+		messageContainer.children().not('.lds-ellipsis').remove();
 	}
 }
 
