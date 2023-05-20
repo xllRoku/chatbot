@@ -1,26 +1,37 @@
-import { BotMessage, MessageClass } from './constans';
+import { MessageClass, optionDictionary } from './constans';
 
 class Bot {
 	constructor() {}
 
+	private createMessageContainer(message: string, imageUrl: string) {
+		return $('<div>', {
+			class: MessageClass.CHAT_BOT,
+			append: $('<div>', {
+				class: 'center-chat-bot',
+				append: [
+					$('<span>', { class: MessageClass.BOT, text: message }),
+					$('<img>', { class: 'resize-logo', src: imageUrl })
+				]
+			})
+		});
+	}
+
+	private isValidOption(
+		input: string,
+		optionDictionary: { [key: string]: string }
+	): boolean {
+		return Object.keys(optionDictionary).includes(input);
+	}
+
 	public sendMessage(message: any, container: JQuery<HTMLElement>) {
-		let newMessage: JQuery<HTMLElement>;
-		let messageContainer: JQuery<HTMLElement>;
-
-		console.log(message);
-
-		newMessage = $('<span>').addClass(MessageClass.BOT).text(message);
-		messageContainer = $('<div>').addClass(MessageClass.CHAT_BOT);
-		newMessage.addClass(MessageClass.BOT);
-
-		messageContainer.append(newMessage);
-		container.append(messageContainer);
+		const imageUrl = './assets/images/bot3.png';
+		container.append(this.createMessageContainer(message, imageUrl));
 	}
 
 	public WhichOption(input: string, messageContainer: JQuery<HTMLElement>) {
 		setTimeout(() => {
-			if (input === '1') {
-				const responseMessage = BotMessage.RESPONSE_ONE;
+			if (this.isValidOption(input, optionDictionary)) {
+				const responseMessage = optionDictionary[input];
 				this.sendMessage(responseMessage, messageContainer);
 			}
 		}, 500);

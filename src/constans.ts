@@ -16,7 +16,7 @@ const UtilsClass = {
 const BotMessage = {
 	WELCOME: 'Hola! ¿Cómo puedo ayudarte?',
 	RESPONSE_ONE:
-		'Gracias por tu interés en realizar prácticas en nuestra institución. Te invitamos a ingresar a: https://litoral.edu.co/portal/estudiante/ para verificar los requisitos y procedimientos necesarios para poder realizar las prácticas o te acerques a nuestra oficina. Allí te brindaremos información detallada acerca de las opciones de prácticas disponibles, los requisitos y procedimientos necesarios para su realización, así como cualquier otra información que necesites para completar el proceso de aplicación. Saludos.'
+		'Gracias por tu interés en realizar prácticas en nuestra institución. Te invitamos a ingresar a: https://litoral.edu.co/portal/estudiante para verificar los requisitos y procedimientos necesarios para poder realizar las prácticas o te acerques a nuestra oficina. Allí te brindaremos información detallada acerca de las opciones de prácticas disponibles, los requisitos y procedimientos necesarios para su realización, así como cualquier otra información que necesites para completar el proceso de aplicación. Saludos.'
 };
 
 const options = [
@@ -25,4 +25,8 @@ const options = [
 	'3. Somos una empresa en búsqueda de estudiantes para prácticas o pasantías'
 ];
 
-export { MessageClass, UtilsClass, BotMessage, options };
+const optionDictionary: { [key: string]: string } = {
+	'1': BotMessage.RESPONSE_ONE
+};
+
+export { MessageClass, UtilsClass, BotMessage, options, optionDictionary };

@@ -13,18 +13,24 @@ class User {
 		});
 	}
 
+	private createMessageContainer(message: string, imageUlr: string) {
+		return $('<div>', {
+			class: MessageClass.CHAT_USER,
+			append: $('<div>', {
+				class: 'center-chat-user',
+				append: [
+					$('<span>').addClass(MessageClass.USER).text(message),
+					$('<img>')
+						.addClass('resize-logo user')
+						.attr('src', imageUlr)
+				]
+			})
+		});
+	}
+
 	public sendMessage(message: any, container: JQuery<HTMLElement>) {
-		let newMessage: JQuery<HTMLElement>;
-		let messageContainer: JQuery<HTMLElement>;
-
-		console.log(message);
-
-		newMessage = $('<span>').addClass(MessageClass.USER).text(message);
-		messageContainer = $('<div>').addClass(MessageClass.CHAT_USER);
-		newMessage.addClass(MessageClass.USER);
-
-		messageContainer.append(newMessage);
-		container.append(messageContainer);
+		const imageUrl = './assets/images/user.png';
+		container.append(this.createMessageContainer(message, imageUrl));
 	}
 
 	public isInputValid() {
