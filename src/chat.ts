@@ -27,7 +27,7 @@ class ChatBot {
 		this.user.resetInput();
 		if (this.user.isInputValid()) {
 			this.user.sendMessage(this.user.input, this.messageContainer);
-			this.bot.WhichOption(
+			this.bot.WhichOptionSelectUser(
 				this.user.input as string,
 				this.messageContainer
 			);

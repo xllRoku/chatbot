@@ -28,7 +28,10 @@ class Bot {
 		container.append(this.createMessageContainer(message, imageUrl));
 	}
 
-	public WhichOption(input: string, messageContainer: JQuery<HTMLElement>) {
+	public WhichOptionSelectUser(
+		input: string,
+		messageContainer: JQuery<HTMLElement>
+	) {
 		setTimeout(() => {
 			if (this.isValidOption(input, optionDictionary)) {
 				const responseMessage = optionDictionary[input];
