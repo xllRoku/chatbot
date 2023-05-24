@@ -2,7 +2,9 @@ const MessageClass = {
 	BOT: 'message-bot',
 	USER: 'message-user',
 	CHAT_BOT: 'chat-message-bot',
-	CHAT_USER: 'chat-message-user'
+	CHAT_USER: 'chat-message-user',
+	CENTER_CHAT_USER: 'center-chat-user',
+	CENTER_CHAT_BOT: 'center-chat-bot'
 };
 
 const UtilsClass = {

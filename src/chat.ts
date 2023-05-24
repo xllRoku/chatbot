@@ -1,32 +1,35 @@
 import $ from 'jquery';
-import { UtilsClass, BotMessage, options } from './constans';
+import { UtilsClass, MessageClass } from './constans';
 import { User } from './user';
 import { Bot } from './bot';
+import { Message } from './message';
+import { MessageOptions } from './messageOptions';
 
 class ChatBot {
 	private chatContainer: JQuery;
 	private messageContainer: JQuery;
 	private user: User;
 	private bot: Bot;
+	private message: Message;
 
 	constructor(chatContainer: JQuery, messageContainer: JQuery) {
 		this.chatContainer = chatContainer;
 		this.messageContainer = messageContainer;
 		this.user = new User();
 		this.bot = new Bot();
-	}
-
-	private welcomeMessage(): void {
-		this.bot.sendMessage(BotMessage.WELCOME, this.messageContainer);
-		options.forEach(option => {
-			this.bot.sendMessage(option, this.messageContainer);
-		});
+		this.message = new Message(this.messageContainer);
 	}
 
 	public sendMessage(): void {
 		this.user.resetInput();
 		if (this.user.isInputValid()) {
-			this.user.sendMessage(this.user.input, this.messageContainer);
+			const messageOptions = new MessageOptions(
+				MessageClass.CHAT_USER,
+				MessageClass.CENTER_CHAT_USER,
+				MessageClass.USER,
+				this.user.imageUrl
+			);
+			this.message.sendMessage(this.user.input, messageOptions);
 			this.bot.WhichOptionSelectUser(
 				this.user.input as string,
 				this.messageContainer
@@ -50,7 +53,7 @@ class ChatBot {
 				.addClass(UtilsClass.SPACE);
 		}, 800);
 		setTimeout(() => {
-			this.welcomeMessage();
+			this.bot.welcomeMessage(this.messageContainer);
 		}, 1000);
 	}
 

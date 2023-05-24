@@ -1,20 +1,14 @@
-import { MessageClass, optionDictionary } from './constans';
+import {
+	BotMessage,
+	MessageClass,
+	optionDictionary,
+	options
+} from './constans';
+import { Message } from './message';
+import { MessageOptions } from './messageOptions';
 
 class Bot {
-	constructor() {}
-
-	private createMessageContainer(message: string, imageUrl: string) {
-		return $('<div>', {
-			class: MessageClass.CHAT_BOT,
-			append: $('<div>', {
-				class: 'center-chat-bot',
-				append: [
-					$('<span>', { class: MessageClass.BOT, text: message }),
-					$('<img>', { class: 'resize-logo', src: imageUrl })
-				]
-			})
-		});
-	}
+	public imageUrl = './assets/images/bot3.png';
 
 	private isValidOption(
 		input: string,
@@ -23,19 +17,37 @@ class Bot {
 		return Object.keys(optionDictionary).includes(input);
 	}
 
-	public sendMessage(message: any, container: JQuery<HTMLElement>) {
-		const imageUrl = './assets/images/bot3.png';
-		container.append(this.createMessageContainer(message, imageUrl));
+	public welcomeMessage(messageContainer: JQuery<HTMLElement>): void {
+		const messageOptions = new MessageOptions(
+			MessageClass.CHAT_BOT,
+			MessageClass.CENTER_CHAT_BOT,
+			MessageClass.BOT,
+			this.imageUrl
+		);
+		const message = new Message(messageContainer);
+		message.sendMessage(BotMessage.WELCOME, messageOptions);
+		options.forEach(option => {
+			message.sendMessage(option, messageOptions);
+		});
 	}
 
 	public WhichOptionSelectUser(
 		input: string,
 		messageContainer: JQuery<HTMLElement>
 	) {
+		const messageOptions = new MessageOptions(
+			MessageClass.CHAT_BOT,
+			MessageClass.CENTER_CHAT_BOT,
+			MessageClass.BOT,
+			this.imageUrl
+		);
+
 		setTimeout(() => {
 			if (this.isValidOption(input, optionDictionary)) {
-				const responseMessage = optionDictionary[input];
-				this.sendMessage(responseMessage, messageContainer);
+				let option = input;
+				const responseMessage = optionDictionary[option];
+				const message = new Message(messageContainer);
+				message.sendMessage(responseMessage, messageOptions);
 			}
 		}, 500);
 	}
