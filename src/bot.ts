@@ -8,7 +8,19 @@ import { Message } from './message';
 import { MessageOptions } from './messageOptions';
 
 class Bot {
+	private message: Message;
 	public imageUrl = './assets/images/bot3.png';
+	private botMessageOptions = new MessageOptions(
+		MessageClass.CHAT_BOT,
+		MessageClass.CENTER_CHAT_BOT,
+		MessageClass.BOT,
+		this.imageUrl
+	);
+
+	constructor(private messageContainer: JQuery<HTMLElement>) {
+		this.message = new Message();
+		this.messageContainer = messageContainer;
+	}
 
 	private isValidOption(
 		input: string,
@@ -17,37 +29,25 @@ class Bot {
 		return Object.keys(optionDictionary).includes(input);
 	}
 
-	public welcomeMessage(messageContainer: JQuery<HTMLElement>): void {
-		const messageOptions = new MessageOptions(
-			MessageClass.CHAT_BOT,
-			MessageClass.CENTER_CHAT_BOT,
-			MessageClass.BOT,
-			this.imageUrl
-		);
-		const message = new Message(messageContainer);
-		message.sendMessage(BotMessage.WELCOME, messageOptions);
+	public welcomeMessage(): void {
+		this.sendMessage(BotMessage.WELCOME);
 		options.forEach(option => {
-			message.sendMessage(option, messageOptions);
+			this.sendMessage(option);
 		});
 	}
 
-	public WhichOptionSelectUser(
-		input: string,
-		messageContainer: JQuery<HTMLElement>
-	) {
-		const messageOptions = new MessageOptions(
-			MessageClass.CHAT_BOT,
-			MessageClass.CENTER_CHAT_BOT,
-			MessageClass.BOT,
-			this.imageUrl
+	public sendMessage(message: any) {
+		this.messageContainer.append(
+			this.message.createMessage(message, this.botMessageOptions)
 		);
+	}
 
+	public WhichOptionSelectUser(input: string) {
 		setTimeout(() => {
 			if (this.isValidOption(input, optionDictionary)) {
 				let option = input;
 				const responseMessage = optionDictionary[option];
-				const message = new Message(messageContainer);
-				message.sendMessage(responseMessage, messageOptions);
+				this.sendMessage(responseMessage);
 			}
 		}, 500);
 	}

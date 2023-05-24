@@ -1,11 +1,7 @@
 import { MessageOptions } from './messageOptions';
 
 class Message {
-	private container: JQuery<HTMLElement>;
-
-	constructor(container: JQuery<HTMLElement>) {
-		this.container = container;
-	}
+	constructor() {}
 
 	public createMessage(message: any, options: MessageOptions) {
 		return $('<div>', {
@@ -20,10 +16,6 @@ class Message {
 				]
 			})
 		});
-	}
-
-	public sendMessage(message: any, options: MessageOptions) {
-		this.container.append(this.createMessage(message, options));
 	}
 }
 
